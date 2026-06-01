@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}审计日志 - RBAC{% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+        <h4><i class="bi bi-journal-text"></i> 审计日志</h4>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-2">
+            <label class="form-label small">操作类型</label>
+            <select class="form-select form-select-sm" id="filterAction">
+                <option value="">全部</option>
+                <option value="LOGIN_SUCCESS">登录成功</option>
+                <option value="LOGIN_FAILED">登录失败</option>
+                <option value="USER_REGISTER">用户注册</option>
+                <option value="USER_CREATED">用户创建</option>
+                <option value="USER_UPDATED">用户更新</option>
+                <option value="USER_DELETED">用户删除</option>
+                <option value="ROLE_CREATED">角色创建</option>
+                <option value="ROLE_UPDATED">角色更新</option>
+                <option value="ROLE_DELETED">角色删除</option>
+                <option value="ROLE_PERMISSIONS_CHANGED">权限变更</option>
+                <option value="FILE_UPLOAD">文件上传</option>
+                <option value="FILE_DOWNLOAD">文件下载</option>
+                <option value="FILE_UPDATED">文件更新</option>
+                <option value="FILE_DELETED">文件删除</option>
+                <option value="PERMISSION_DENIED">权限拒绝</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small">资源类型</label>
+            <select class="form-select form-select-sm" id="filterResource">
+                <option value="">全部</option>
+                <option value="user">用户</option>
+                <option value="role">角色</option>
+                <option value="file">文件</option>
+                <option value="audit">审计</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small">开始日期</label>
+            <input type="date" class="form-control form-control-sm" id="filterStartDate">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small">结束日期</label>
+            <input type="date" class="form-control form-control-sm" id="filterEndDate">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-sm btn-outline-primary w-100" onclick="applyFilter()">
+                <i class="bi bi-funnel"></i> 筛选
+            </button>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-sm btn-outline-secondary w-100" onclick="resetFilter()">
+                <i class="bi bi-arrow-counterclockwise"></i> 重置
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3">
+    <div id="logsLoading" class="text-center py-4"><div class="spinner-border"></div></div>
+    <div id="logsTableContainer" class="d-none">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr><th>时间</th><th>用户</th><th>操作</th><th>资源</th><th>详情</th><th>IP</th></tr>
+            </thead>
+            <tbody id="logsTableBody"></tbody>
+        </table>
+        <nav id="logsPagination"></nav>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/audit.js"></script>
+{% endblock %}

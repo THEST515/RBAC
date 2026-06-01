@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}用户管理 - RBAC{% endblock %}
+{% block content %}
+<div class="row mb-3 align-items-center">
+    <div class="col">
+        <h4><i class="bi bi-people"></i> 用户管理</h4>
+    </div>
+    <div class="col-auto" id="createUserBtnWrapper" data-perm="user:create">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" onclick="resetUserForm()">
+            <i class="bi bi-plus-lg"></i> 添加用户
+        </button>
+    </div>
+</div>
+
+<div class="card p-3">
+    <div id="usersLoading" class="text-center py-4"><div class="spinner-border"></div></div>
+    <div id="usersTableContainer" class="d-none">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th><th>用户名</th><th>邮箱</th><th>角色</th><th>状态</th><th>创建时间</th><th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalTitle">添加用户</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="userModalError" class="alert alert-danger d-none"></div>
+                <input type="hidden" id="userId">
+                <div class="mb-3">
+                    <label for="editUsername" class="form-label">用户名</label>
+                    <input type="text" class="form-control" id="editUsername" required>
+                </div>
+                <div class="mb-3">
+                    <label for="editEmail" class="form-label">邮箱</label>
+                    <input type="email" class="form-control" id="editEmail">
+                </div>
+                <div class="mb-3">
+                    <label for="editPassword" class="form-label">密码 <small class="text-muted" id="passwordHint">(新建用户必填)</small></label>
+                    <input type="password" class="form-control" id="editPassword">
+                </div>
+                <div class="mb-3">
+                    <label for="editRoles" class="form-label">角色</label>
+                    <div id="editRoles" class="d-flex flex-wrap gap-2"></div>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="editIsActive" checked>
+                    <label class="form-check-label" for="editIsActive">账号激活</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveUser()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/users.js"></script>
+{% endblock %}

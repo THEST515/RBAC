@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}角色管理 - RBAC{% endblock %}
+{% block content %}
+<div class="row mb-3 align-items-center">
+    <div class="col">
+        <h4><i class="bi bi-person-badge"></i> 角色管理</h4>
+    </div>
+    <div class="col-auto" data-perm="role:create">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal" onclick="resetRoleForm()">
+            <i class="bi bi-plus-lg"></i> 添加角色
+        </button>
+    </div>
+</div>
+
+<div class="card p-3 mb-3">
+    <div id="rolesLoading" class="text-center py-4"><div class="spinner-border"></div></div>
+    <div id="rolesTableContainer" class="d-none">
+        <table class="table table-hover">
+            <thead>
+                <tr><th>ID</th><th>名称</th><th>描述</th><th>权限数</th><th>用户数</th><th>操作</th></tr>
+            </thead>
+            <tbody id="rolesTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Permission Matrix -->
+<div class="card p-3" id="permMatrixCard" style="display:none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5>权限矩阵 - <span id="permMatrixRoleName"></span></h5>
+        <button class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('permMatrixCard').style.display='none'">
+            <i class="bi bi-x-lg"></i> 关闭
+        </button>
+    </div>
+    <div id="permMatrixContent"></div>
+</div>
+
+<!-- Role Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalTitle">添加角色</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="roleModalError" class="alert alert-danger d-none"></div>
+                <input type="hidden" id="roleId">
+                <div class="mb-3">
+                    <label for="editRoleName" class="form-label">角色名称</label>
+                    <input type="text" class="form-control" id="editRoleName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="editRoleDesc" class="form-label">描述</label>
+                    <textarea class="form-control" id="editRoleDesc" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveRole()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/roles.js"></script>
+{% endblock %}

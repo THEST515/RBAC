@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}文件管理 - RBAC{% endblock %}
+{% block content %}
+<div class="row mb-3 align-items-center">
+    <div class="col">
+        <h4><i class="bi bi-folder"></i> 文件管理</h4>
+    </div>
+    <div class="col-auto" data-perm="file:create">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+            <i class="bi bi-cloud-upload"></i> 上传文件
+        </button>
+    </div>
+</div>
+
+<div class="card p-3">
+    <div id="filesLoading" class="text-center py-4"><div class="spinner-border"></div></div>
+    <div id="filesEmpty" class="empty-state d-none">
+        <i class="bi bi-inbox"></i>
+        <p>暂无文件</p>
+    </div>
+    <div id="filesTableContainer" class="d-none">
+        <table class="table table-hover">
+            <thead>
+                <tr><th>文件名</th><th>大小</th><th>类型</th><th>上传者</th><th>上传时间</th><th>操作</th></tr>
+            </thead>
+            <tbody id="filesTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">上传文件</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="uploadError" class="alert alert-danger d-none"></div>
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                    <i class="bi bi-cloud-arrow-up display-4 text-muted"></i>
+                    <p class="mt-2 mb-0">点击选择文件或拖放至此</p>
+                    <small class="text-muted">支持: txt, pdf, png, jpg, gif, doc, docx, xls, xlsx, ppt, pptx, zip (最大 16MB)</small>
+                </div>
+                <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(this)">
+                <div id="selectedFile" class="mt-2 d-none">
+                    <span id="selectedFileName"></span>
+                    <span id="selectedFileSize" class="text-muted"></span>
+                </div>
+                <div class="progress mt-2 d-none" id="uploadProgress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="uploadBtn" onclick="uploadFile()" disabled>
+                    <i class="bi bi-check-lg"></i> 上传
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/files.js"></script>
+{% endblock %}
