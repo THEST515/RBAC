@@ -56,14 +56,14 @@ def create_user(username, password, email=None, role_ids=None):
 
 
 def get_user(user_id):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return None, "User not found"
     return user.to_dict(), None
 
 
 def update_user(user_id, username=None, email=None, password=None, is_active=None, role_ids=None):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return None, "User not found"
 
@@ -100,7 +100,7 @@ def update_user(user_id, username=None, email=None, password=None, is_active=Non
 
 
 def delete_user(user_id):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return None, "User not found"
 
@@ -113,7 +113,7 @@ def delete_user(user_id):
 
 
 def assign_roles(user_id, role_ids):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return None, "User not found"
 

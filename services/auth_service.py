@@ -85,7 +85,7 @@ def login_user(username, password, ip_address=None):
 
 
 def get_profile(user_id):
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return None, "User not found"
     return user.to_dict(), None

@@ -33,14 +33,14 @@ def create_role(name, description=None):
 
 
 def get_role(role_id):
-    role = Role.query.get(role_id)
+    role = db.session.get(Role, role_id)
     if not role:
         return None, "Role not found"
     return role.to_dict(), None
 
 
 def update_role(role_id, name=None, description=None):
-    role = Role.query.get(role_id)
+    role = db.session.get(Role, role_id)
     if not role:
         return None, "Role not found"
 
@@ -57,7 +57,7 @@ def update_role(role_id, name=None, description=None):
 
 
 def delete_role(role_id):
-    role = Role.query.get(role_id)
+    role = db.session.get(Role, role_id)
     if not role:
         return None, "Role not found"
 
@@ -70,14 +70,14 @@ def delete_role(role_id):
 
 
 def get_role_permissions(role_id):
-    role = Role.query.get(role_id)
+    role = db.session.get(Role, role_id)
     if not role:
         return None, "Role not found"
     return [p.to_dict() for p in role.permissions], None
 
 
 def set_role_permissions(role_id, permission_ids):
-    role = Role.query.get(role_id)
+    role = db.session.get(Role, role_id)
     if not role:
         return None, "Role not found"
 

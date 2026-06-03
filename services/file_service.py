@@ -67,14 +67,14 @@ def upload_file(file_obj, owner_id, owner_name):
 
 
 def get_file_info(file_id):
-    f = FileModel.query.get(file_id)
+    f = db.session.get(FileModel, file_id)
     if not f:
         return None, "File not found"
     return f.to_dict(), None
 
 
 def download_file(file_id):
-    f = FileModel.query.get(file_id)
+    f = db.session.get(FileModel, file_id)
     if not f:
         return None, "File not found", None
 
@@ -85,7 +85,7 @@ def download_file(file_id):
 
 
 def update_file(file_id, file_obj, username):
-    f = FileModel.query.get(file_id)
+    f = db.session.get(FileModel, file_id)
     if not f:
         return None, "File not found"
 
@@ -131,7 +131,7 @@ def update_file(file_id, file_obj, username):
 
 
 def delete_file(file_id, username):
-    f = FileModel.query.get(file_id)
+    f = db.session.get(FileModel, file_id)
     if not f:
         return None, "File not found"
 
