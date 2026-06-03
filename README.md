@@ -54,11 +54,13 @@
 
 | 指标 | 数值 |
 |------|:---:|
-| 源文件 | 49 |
-| 代码行数 | 3,600+ |
+| 源文件 | 50+ |
+| 代码行数 | 4,300+ |
 | 后端模块 | 22 |
 | 前端页面 | 7 |
 | JavaScript 模块 | 7 |
+| 测试文件 | 5 |
+| 测试用例 | 117 |
 | 数据库表 | 7 |
 | API 端点 | 22 |
 
@@ -317,10 +319,19 @@ RBVC/
 │       ├── files.js          # 文件上传/下载/替换/删除 + 拖拽
 │       └── audit.js          # 审计日志筛选 + 分页 + 操作名中文化
 │
+├── tests/                    # 单元测试（pytest）
+│   ├── conftest.py           # 共享 fixtures（app/client/auth tokens）
+│   ├── test_auth.py          # 认证测试（15 用例）
+│   ├── test_users.py         # 用户管理测试（12 用例）
+│   ├── test_roles.py         # 角色管理测试（12 用例）
+│   ├── test_files.py         # 文件操作测试（12 用例）
+│   └── test_permissions.py   # RBAC 权限矩阵全排列（66 用例）
+│
 ├── uploads/                  # 文件存储目录（UUID 命名，.gitignore）
 │
 ├── README.md                 # 项目说明（本文件）
-└── safe.md                   # 安全管理功能详解
+├── safe.md                   # 安全管理功能详解
+└── 课程设计讲解文档.md         # 课程设计原理讲解（非 GitHub）
 ```
 
 ---
@@ -430,8 +441,38 @@ RBVC/
 | 数据库方案（非区块链） | ✅ | SQLite + SQLAlchemy ORM |
 | 客户与服务器分离 | ✅ | 浏览器前端 ↔ Flask 后端，HTTP + JWT |
 | SSL 双向认证 | ⬜ | 可选加分项 |
-| 单元测试/集成测试 | ⬜ | 可补充 pytest |
+| 单元测试/集成测试 | ✅ | pytest 117 用例，6 角色 × 10 端点全排列验证 |
+| SSL 双向认证 | ⬜ | 可选加分项 |
 | 云平台部署 | ⬜ | 可部署至任意支持 Python 的云服务器 |
+
+---
+
+## 运行测试
+
+```bash
+cd RBVC
+
+# 安装测试依赖
+pip install pytest
+
+# 运行全部 117 个测试用例
+python -m pytest tests/ -v
+
+# 简洁输出
+python -m pytest tests/ -q
+
+# 只跑权限矩阵测试
+python -m pytest tests/test_permissions.py -v
+```
+
+```
+tests/test_auth.py ............ 15 passed
+tests/test_users.py ........... 12 passed
+tests/test_roles.py ........... 12 passed
+tests/test_files.py ........... 12 passed
+tests/test_permissions.py .... 66 passed
+========================= 117 passed in 108s =========================
+```
 
 ---
 
@@ -441,6 +482,7 @@ RBVC/
 |------|------|
 | [README.md](README.md) | 项目总览、快速开始、架构、API（本文件） |
 | [safe.md](safe.md) | 安全管理功能详解：7 大类 22 项措施 + 攻击场景防御表 |
+| 课程设计讲解文档.md | 课程设计原理详解：RBAC 模型、数据库设计、认证流程、安全机制（非 GitHub） |
 
 ---
 
