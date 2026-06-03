@@ -24,3 +24,6 @@ uploads/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Course documents (not for GitHub)
+课程设计讲解文档.md
