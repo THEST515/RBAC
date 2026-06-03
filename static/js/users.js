@@ -28,7 +28,7 @@ async function loadUsers() {
                 <td>${u.id}</td>
                 <td><strong>${escapeHtml(u.username)}</strong></td>
                 <td>${escapeHtml(u.email || "—")}</td>
-                <td>${(u.roles || []).map(r => `<span class="badge bg-primary me-1">${r.name}</span>`).join("") || "—"}</td>
+                <td>${(u.roles || []).map(r => `<span class="badge bg-primary me-1">${T.role(r.name)}</span>`).join("") || "—"}</td>
                 <td>${u.is_active ? '<span class="badge bg-success">激活</span>' : '<span class="badge bg-secondary">禁用</span>'}</td>
                 <td>${new Date(u.created_at).toLocaleString("zh-CN")}</td>
                 <td>
@@ -64,7 +64,7 @@ async function editUser(id) {
         rolesDiv.innerHTML = allRoles.map(r => `
             <div class="form-check form-check-inline">
                 <input class="form-check-input role-check" type="checkbox" value="${r.id}" id="role${r.id}" ${userRoleIds.includes(r.id) ? "checked" : ""}>
-                <label class="form-check-label" for="role${r.id}">${r.name}</label>
+                <label class="form-check-label" for="role${r.id}">${T.role(r.name)}</label>
             </div>
         `).join("");
 

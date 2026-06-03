@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <tr>
                                     <td>${new Date(l.timestamp).toLocaleString("zh-CN")}</td>
                                     <td>${l.username || "—"}</td>
-                                    <td><span class="badge bg-secondary">${l.action}</span></td>
+                                    <td><span class="badge bg-secondary">${T.perm(l.action) || l.action}</span></td>
                                     <td class="audit-log-detail">${l.details || "—"}</td>
                                 </tr>
                             `).join("")}

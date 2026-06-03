@@ -26,7 +26,7 @@ async function loadRoles() {
         tbody.innerHTML = roles.map(r => `
             <tr>
                 <td>${r.id}</td>
-                <td><strong>${escapeHtml(r.name)}</strong></td>
+                <td><strong>${escapeHtml(T.role(r.name))}</strong></td>
                 <td>${escapeHtml(r.description || "—")}</td>
                 <td><span class="badge bg-info">${(r.permissions || []).length}</span></td>
                 <td>${r.user_count}</td>
@@ -35,7 +35,7 @@ async function loadRoles() {
                         <i class="bi bi-grid-3x3"></i> 权限
                     </button>
                     ${RBAC.hasPermission("role:update") ? `<button class="btn btn-sm btn-outline-primary me-1" onclick="editRole(${r.id})"><i class="bi bi-pencil"></i></button>` : ""}
-                    ${RBAC.hasPermission("role:delete") && r.name !== "Admin" && r.name !== "Viewer" ? `<button class="btn btn-sm btn-outline-danger" onclick="deleteRole(${r.id}, '${escapeHtml(r.name)}')"><i class="bi bi-trash"></i></button>` : ""}
+                    ${RBAC.hasPermission("role:delete") && r.name !== "Admin" && r.name !== "Viewer" ? `<button class="btn btn-sm btn-outline-danger" onclick="deleteRole(${r.id}, '${escapeHtml(T.role(r.name))}')"><i class="bi bi-trash"></i></button>` : ""}
                 </td>
             </tr>
         `).join("");
@@ -111,20 +111,18 @@ async function showPermissionMatrix(roleId, roleName) {
         const rolePerms = await resp.json();
         const rolePermNames = rolePerms.map(p => p.name);
 
-        document.getElementById("permMatrixRoleName").textContent = roleName;
+        document.getElementById("permMatrixRoleName").textContent = T.role(roleName);
         document.getElementById("permMatrixCard").style.display = "block";
 
         const resources = [...new Set(allPermissions.map(p => p.resource))];
         const actions = [...new Set(allPermissions.map(p => p.action))];
 
-        const resourceNames = { user: "用户", role: "角色", file: "文件", audit: "审计" };
-        const actionNames = { create: "创建", read: "读取", update: "更新", delete: "删除" };
         let html = '<table class="table table-bordered permission-matrix"><thead><tr><th>资源 \\ 操作</th>';
-        actions.forEach(a => { html += `<th>${actionNames[a] || escapeHtml(a)}</th>`; });
+        actions.forEach(a => { html += `<th>${T.action(a)}</th>`; });
         html += '</tr></thead><tbody>';
 
         resources.forEach(res => {
-            html += `<tr><td><strong>${resourceNames[res] || escapeHtml(res)}</strong></td>`;
+            html += `<tr><td><strong>${T.resource(res)}</strong></td>`;
             actions.forEach(act => {
                 const perm = allPermissions.find(p => p.resource === res && p.action === act);
                 if (perm) {

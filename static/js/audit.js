@@ -31,7 +31,7 @@ async function loadLogs(page = 1) {
                     <td class="text-nowrap">${new Date(l.timestamp).toLocaleString("zh-CN")}</td>
                     <td>${escapeHtml(l.username || "—")}</td>
                     <td><span class="badge ${actionBadge(l.action)}">${actionLabel(l.action)}</span></td>
-                    <td>${l.resource_type || "—"}${l.resource_id ? ` #${l.resource_id}` : ""}</td>
+                    <td>${T.resource(l.resource_type) || l.resource_type || "—"}${l.resource_id ? ` #${l.resource_id}` : ""}</td>
                     <td class="audit-log-detail" title="${escapeHtml(l.details || "")}">${escapeHtml(l.details || "—")}</td>
                     <td><small>${l.ip_address || "—"}</small></td>
                 </tr>
